@@ -14,6 +14,7 @@ let guests = [{
   bring: "O'Doul's"
 }];
 
+app.set('view engine', 'ejs');
 app.use(morgan('combined'));
 app.use(express.json()); // Body-parser functionality
 
@@ -23,13 +24,16 @@ app.get('/', (request, response) => {
 
 // Read (all)
 app.get('/guests', (request,response) => {
-  response.send(guests);
+  // response.send(guests);
+  response.render('index', {guests});
 });
 
 // Read (individual)
 app.get('/guests/:guestId', (request, response) => {
   const index = parseInt(request.params.guestId);
-  response.send(guests[index].name);
+  const guest = guests[index];
+  // response.send(guests[index].name);
+  response.render('show',{guest}) //Shortcode for {guest: guest}
 });
 
 // Create
